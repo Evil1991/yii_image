@@ -8,10 +8,16 @@
             "email": "konsul117@bk.ru"
         }
     ],
+	"autoload": {
+		"psr-4": {"yiiCustom\\": ""}
+	},
+	"autoload-dev": {
+		"psr-4": {"yiiCustom\\": ""}
+	},
     "minimum-stability": "dev",
     "require": {
 		"php": ">=5.6.0",
-		"yiisoft/yii2": ">=2.0.6",
+		"yiisoft/yii2": ">=2.0.0",
 		"sybio/image-workshop": "^2.0",
 		"Evil1991/yii_custom": "dev-master"
 	},
