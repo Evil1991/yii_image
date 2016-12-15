@@ -9,10 +9,10 @@
         }
     ],
 	"autoload": {
-		"psr-4": {"yiiCustom\\": ""}
+		"psr-4": {"yiiImage\\": ""}
 	},
 	"autoload-dev": {
-		"psr-4": {"yiiCustom\\": ""}
+		"psr-4": {"yiiImage\\": ""}
 	},
     "minimum-stability": "dev",
     "require": {
