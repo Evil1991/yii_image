@@ -14,7 +14,7 @@ use yiiImage\models\RefImage;
 class InitController extends Controller {
 
 	const MIGRATIONS_PATH = [
-		'@vendor/yii_custom/yiiImage/migrations' => 'yii_image_tables',
+		'@vendor/yii_custom/yii_image/migrations' => 'yii_image_tables',
 	];
 
 	/**
