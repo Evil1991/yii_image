@@ -13,15 +13,11 @@ use yiiImage\models\RefImage;
  */
 class InitController extends Controller {
 
-	const MIGRATIONS_PATH = [
-		'@vendor/yii_custom/yii_image/migrations' => 'yii_image_tables',
-	];
-
 	/**
 	 * Инициализация.
 	 */
 	public function actionInit() {
-		foreach (static::MIGRATIONS_PATH as $path => $migrationName) {
+		foreach ($this->getMigrationsPath() as $path => $migrationName) {
 			$this->stdout('Выполняем миграцию: ' . $migrationName . PHP_EOL);
 			MigrationProvider::getMigration($path, $migrationName)->up();
 		}
@@ -33,7 +29,7 @@ class InitController extends Controller {
 	 * Удаление.
 	 */
 	public function actionRemove() {
-		foreach (static::MIGRATIONS_PATH as $path => $migrationName) {
+		foreach ($this->getMigrationsPath() as $path => $migrationName) {
 			$this->stdout('Откатываем миграцию: ' . $migrationName . PHP_EOL);
 			MigrationProvider::getMigration($path, $migrationName)->down();
 		}
@@ -62,6 +58,17 @@ class InitController extends Controller {
 		}
 
 		$this->stdout('Удаление успешно выполнено' . PHP_EOL, Console::FG_GREEN);
+	}
+
+	/**
+	 * Получение путей расположения миграций.
+	 *
+	 * @return string[]
+	 */
+	protected function getMigrationsPath() {
+		return [
+			dirname(__FILE__) . '/../../migrations' => 'yii_image_tables'
+		];
 	}
 
 }
