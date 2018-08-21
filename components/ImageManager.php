@@ -60,7 +60,7 @@ class ImageManager extends Component {
 			$imageLayer->save($this->storeImagePath, $filename);
 		}
 		catch (ImageWorkshopBaseException $e) {
-			return null;
+			return false;
 		}
 
 		//т.к. ImageResize::save() не возвращает результат сохранения, то приходиться проверять результат по наличию итогового файла
