@@ -140,6 +140,42 @@ class ImageManager extends Component {
 	}
 
 	/**
+	 * Получение URL изображения для вывода на фронте - чистая функция без контекста.
+	 * Возвращает относительный URL (без домена и протокола).
+	 *
+	 * @param int    $imageId    Идентификатор изображения
+	 * @param string $formatId   Идентификатор формата @see {static::$thumbsFormats}
+	 * @param bool   $blankImage Выводить ли изображение-пустышку, если требуемое изображение недоступно
+	 * @param string $protocol   Протокол URL
+	 *
+	 * @return string|null
+	 */
+	public function getFrontImageUrlClear($imageId, ThumbFormat $format) {
+		$url = '/' . $this->frontendDir;
+
+		$thumbFilename = $this->getThumbFilename($imageId, $format);
+
+		$url .= '/' . $thumbFilename;
+
+		if (file_exists($this->publishDir . DIRECTORY_SEPARATOR . $thumbFilename)) {
+			return $url;
+		}
+
+		$originalFilePath = $this->storeImagePath . DIRECTORY_SEPARATOR . $imageId . '.jpg';
+
+		if (file_exists($originalFilePath) === false) {
+			return null;
+		}
+
+		if ($this->createThumbByFile($originalFilePath, $this->publishDir, $thumbFilename, $format) === false) {
+			return null;
+		}
+
+		return $url;
+	}
+
+	/**
+	 * @deprecated Содержит контекст, нельзя использовать без сервиса
 	 * Получение URL изображения для вывода на фронте.
 	 *
 	 * @param int    $imageId    Идентификатор изображения
