@@ -143,23 +143,18 @@ class ImageManager extends Component {
 	 * Получение URL изображения для вывода на фронте - чистая функция без контекста.
 	 * Возвращает относительный URL (без домена и протокола).
 	 *
-	 * @param int    $imageId    Идентификатор изображения
-	 * @param string $formatId   Идентификатор формата @see {static::$thumbsFormats}
-	 * @param bool   $blankImage Выводить ли изображение-пустышку, если требуемое изображение недоступно
-	 * @param string $protocol   Протокол URL
+	 * @param string      $imageId  Идентификатор изображения
+	 * @param ThumbFormat $format   Формат
+	 * @param bool        $addStamp Добавлять ли stamp изменения файла в качестве get-параметра (для обхода браузерного кэша)
 	 *
 	 * @return string|null
 	 */
-	public function getFrontImageUrlClear($imageId, ThumbFormat $format) {
+	public function getFrontImageUrlClear($imageId, ThumbFormat $format, $addStamp = true) {
 		$url = '/' . $this->frontendDir;
 
 		$thumbFilename = $this->getThumbFilename($imageId, $format);
 
 		$url .= '/' . $thumbFilename;
-
-		if (file_exists($this->publishDir . DIRECTORY_SEPARATOR . $thumbFilename)) {
-			return $url;
-		}
 
 		$originalFilePath = $this->storeImagePath . DIRECTORY_SEPARATOR . $imageId . '.jpg';
 
@@ -167,6 +162,16 @@ class ImageManager extends Component {
 			return null;
 		}
 
+		if ($addStamp === true) {
+			$url .= '?' . filemtime($originalFilePath);
+		}
+
+		//если уже есть миниатюра, то возвращаем url
+		if (file_exists($this->publishDir . DIRECTORY_SEPARATOR . $thumbFilename)) {
+			return $url;
+		}
+
+		//создаём миниатюру
 		if ($this->createThumbByFile($originalFilePath, $this->publishDir, $thumbFilename, $format) === false) {
 			return null;
 		}
