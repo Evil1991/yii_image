@@ -2,13 +2,13 @@
 
 namespace yiiImage\components;
 use Yii;
-use yii\base\Object;
+use yii\base\BaseObject;
 
 /**
  * Класс-обёрта для формата изображения.
  * Нужен для внутреннего обращения в модуле.
  */
-class ThumbFormat extends Object {
+class ThumbFormat extends BaseObject {
 
 	/**
 	 * Получение объекта формата по идентификатору.
